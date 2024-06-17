@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+  
+  backend:
+    restart: unless-stopped
+    build:
+      context: ./amo-crm
+    env_file:
+      - .env
+    volumes:
+      - /amo-crm:/backend
+    ports:
+      - 8000:8000
+    command: npm run start dev
+  
+  frontend:
+    restart: unless-stopped
+    build:
+      context: ./leads-front
+    env_file:
+      - .env
+    volumes:
+      - /leads-front:/frontend
+    ports:
+      - 8080:8080
+    depends_on:
+      - backend
